@@ -4,12 +4,22 @@
 // denoted by n!, is the product of all positive integers less than or equal to n.
 // Example:  5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5);  // 120
-var factorial = function(n) {
-};
+var factorial = function(n, result = 1) {
+  if (n === 0) {
+    return result;
+  } else if (n < 0) {
+    return null;
+  }
+  return factorial(n - 1, result * n);
+}
 
 // 2. Compute the sum of an array of integers.
 // Example:  sum([1, 2, 3, 4, 5, 6]);  // 21
-var sum = function(array) {
+var sum = function(array, result = 0) {
+  if (array.length === 0) {
+    return result;
+  }
+  return sum(array.slice(1), result + array[0]);
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
@@ -19,17 +29,59 @@ var arraySum = function(array) {
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  
+  // if n is negative, make it positive
+  if (n < 0) {
+    return isEven(-n);
+  }
+  // if n is even
+  if (n === 0) {
+    return true;
+  }
+  // if n is odd
+  if (n === 1) {
+    return false;
+  }
+  // subtract n - 2 on each iteration
+  return isEven(n - 2);
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
-var sumBelow = function(n) {
+var sumBelow = function(n, sum = 0) {
+  // console log to check values on each iteration
+  console.log('n value ' + n + ' : sum value ' + sum);
+  // base case
+  if (n === 0) {
+    return sum;
+  }
+  // negative recursive case
+  if (n < 0) {
+    return sumBelow(n + 1, sum + (n + 1));
+  }
+  // positive recursive case
+  return sumBelow(n - 1, sum + (n - 1));
 };
+
+
 
 // 6. Get the integers in range (x, y).
 // Example:  range(2, 9);  // [3, 4, 5, 6, 7, 8]
-var range = function(x, y) {
+var range = function(x, y, array = []) {
+  // base cases
+  if (x === y || x === y - 1 || x === y + 1) {
+    return array;
+  }
+
+  // recursive cases
+  if (x < y) {
+    array.push(x + 1);
+    return range (x + 1, y, array);
+  } else {
+    array.push(x - 1);
+    return range(x - 1, y, array);
+  }
 };
 
 // 7. Compute the exponent of a number.
@@ -37,7 +89,8 @@ var range = function(x, y) {
 // 8^2 = 8 x 8 = 64.  Here, 8 is the base and 2 is the exponent.
 // Example:  exponent(4,3);  // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
-var exponent = function(base, exp) {
+var exponent = function(base, exp) { 
+
 };
 
 // 8. Determine if a number is a power of two.
@@ -48,8 +101,19 @@ var powerOfTwo = function(n) {
 };
 
 // 9. Write a function that accepts a string a reverses it.
-var reverse = function(string) {
+var reverse = function(string, output = '') {
+  // base case
+  if (string.length === 0) {
+    return output;
+  }
+  // add last value of string to output
+  output += string[string.length - 1];
+
+  // recursion
+  return reverse(string.slice(0, -1), output);
 };
+
+
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
@@ -67,8 +131,15 @@ var modulo = function(x, y) {
 // JavaScript's Math object.
 // ATTENTION DO NOT LEAVE COMMENTS IN THIS FUNCTION. The test is looking for any ('/').
 var multiply = function(x, y) {
-};
+  // base case
+  if (y === 1) {
+    return x;
+  }
+  x += x;
 
+  return multiply(x, y - 1);
+};
+console.log(multiply(4, 3));
 // 13. Write a function that divides two numbers without using the / operator  or
 // JavaScript's Math object.
 var divide = function(x, y) {
