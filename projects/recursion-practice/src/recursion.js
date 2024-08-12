@@ -452,8 +452,28 @@ var minimizeZeroes = function(array, output = []) {
 // their original sign.  The first number in the index always needs to be positive.
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
-var alternateSign = function(array) {
+var alternateSign = function(array, output = []) {
+  // base case
+  if (array.length === 0) {
+    return output;
+  }
+
+  // if number is positive, make it negative
+  if (array[0] < 0) {
+    array[0] = -array[0];
+  }
+
+  // task: if output length is odd make current number negative
+  if (output.length % 2 !== 0) {
+    array[0] = -array[0];
+  }
+  // push value to output
+  output.push(array[0]);
+  // recursion
+  return alternateSign(array.slice(1), output);
+
 };
+console.log(alternateSign([2,7,8,3,1,4]));
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
